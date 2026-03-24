@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset='UTF-8'/>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+
+<title>Pesan Untuk Kamu</title>
+
+<link rel="icon" href="main-icon.png">
+
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;700&display=swap" rel="stylesheet">
+
+<style>
+body {
+  margin:0;
+  font-family:'Quicksand', sans-serif;
+  text-align:center;
+  color:white;
+  overflow-x:hidden;
+}
+
+.wp {
+  width:100%;
+  height:100vh;
+  background: linear-gradient(135deg, #f8c1ff, #c1a0ff);
+  position:absolute;
+  z-index:-1;
+}
+
+section {
+  height:100vh;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+}
+
+.stiker {
+  width:120px;
+  margin:10px;
+}
+
+button {
+  padding:10px 20px;
+  border:none;
+  border-radius:20px;
+  background:#ff9de2;
+  color:white;
+  margin:5px;
+  cursor:pointer;
+}
+
+/* AREA TOMBOL */
+.area-tombol {
+  position: relative;
+  width: 300px;
+  height: 150px;
+}
+
+/* tombol kabur pakai absolute dalam area */
+#btnKabur {
+  position: absolute;
+  left: 20px;
+  top: 50px;
+}
+
+.overlay {
+  position:fixed;
+  width:100%;
+  height:100%;
+  background:black;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  z-index:999;
+}
+
+.loading-message {
+  font-size:20px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="overlay" id="loading">
+  <div class="loading-message">Hai kamu!<br>Tunggu sebentar ya..</div>
+</div>
+
+<audio src="assets/seandainya.mp3" id="linkmp3"></audio>
+
+<!-- 1 -->
+<section>
+<div class="wp"></div>
+<img class="stiker" src="assets/bunga.gif">
+
+<h1>INI UNTUK KAMU</h1>
+<p>Aku mau bilang sesuatu</p>
+<p>baca sampai selesai ya</p>
+</section>
+
+<!-- 2 -->
+<section>
+<div class="wp"></div>
+<img class="stiker" src="assets/pusn.gif">
+
+<h2>aku buat ini khusus untuk kamu</h2>
+<p>dibaca ya</p>
+</section>
+
+<!-- 3 -->
+<section>
+<div class="wp"></div>
+
+<p>
+“Aku mau kamu tahu, walaupun kita jauh, perasaan aku ke kamu itu tetap sama. Aku suka kamu, serius. Setiap kali aku mikirin kamu, rasanya kayak ada seseorang yang spesial di hidup aku, yang bikin aku tenang walaupun hari lagi kacau. Aku tahu kita terpisah jarak, tapi aku pengen kamu tetap ngerasa dihargai, dijaga, dan gak sendirian. Aku selalu doain kamu biar bahagia, kuat, dan tetap tersenyum setiap hari. Kalau kamu lagi capek atau ngerasa sendiri, bayangin aja aku ada di samping kamu, selalu dukung kamu. Perasaan aku tulus, gak berubah, dan aku bakal tetap ada buat kamu.”
+</p>
+
+</section>
+
+<!-- 4 -->
+<section>
+<div class="wp"></div>
+<img class="stiker" src="assets/bunga.gif">
+
+<p>aku suka kamu, tapi kita juga baru kenal. kalau kamu belum siap, kita bisa mulai dari teman dulu 😊</p>
+
+<div class="area-tombol">
+  <button id="btnKabur">nggak dulu 😝</button>
+  <button style="position:absolute; right:20px; top:50px;" onclick="fungsikedua()">mau 🥰</button>
+</div>
+
+</section>
+
+<!-- AKHIR -->
+<section id="akhir">
+<div class="wp"></div>
+<img src="assets/g5.gif">
+
+<h1 id="judulakhir"></h1>
+<p id="kalimatakhir"></p>
+
+<button onclick="kirimWA()">Balas</button>
+</section>
+
+<script>
+// loading + autoplay lagu
+window.onload = function(){
+  setTimeout(() => {
+    document.getElementById("loading").style.display = "none";
+    document.getElementById("linkmp3").play();
+  }, 2000);
+}
+
+// hasil
+function fungsipertama(){
+  document.getElementById("judulakhir").innerText = "Yahh 🥲";
+  document.getElementById("kalimatakhir").innerText = "Gapapa kok, makasih ya udah jujur 😊";
+  location.href = "#akhir";
+}
+
+function fungsikedua(){
+  document.getElementById("judulakhir").innerText = "YEYYYY 🥳🥳";
+  document.getElementById("kalimatakhir").innerText = "Makasih yaa udah mau 🥰🥳";
+  location.href = "#akhir";
+}
+
+// ===== KABUR DALAM AREA =====
+let hitungKabur = 0;
+const btnKabur = document.getElementById("btnKabur");
+
+function kabur() {
+  const area = document.querySelector(".area-tombol");
+  const rectArea = area.getBoundingClientRect();
+  const rectBtn = btnKabur.getBoundingClientRect();
+
+  let offsetX = (Math.random() * 100) - 50;
+  let offsetY = (Math.random() * 80) - 40;
+
+  let x = rectBtn.left - rectArea.left + offsetX;
+  let y = rectBtn.top - rectArea.top + offsetY;
+
+  x = Math.max(0, Math.min(rectArea.width - rectBtn.width, x));
+  y = Math.max(0, Math.min(rectArea.height - rectBtn.height, y));
+
+  btnKabur.style.left = x + "px";
+  btnKabur.style.top = y + "px";
+}
+
+// klik
+btnKabur.addEventListener("click", function(e){
+  if (hitungKabur < 10) {
+    e.preventDefault();
+    kabur();
+    hitungKabur++;
+  } else {
+    fungsipertama();
+  }
+});
+
+// HP
+btnKabur.addEventListener("touchstart", function(e){
+  if (hitungKabur < 10) {
+    e.preventDefault();
+    kabur();
+    hitungKabur++;
+  }
+});
+
+// kirim WA
+function kirimWA(){
+  window.open("https://wa.me/6285646466151");
+}
+</script>
+
+</body>
+</html>
